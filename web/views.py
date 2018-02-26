@@ -1,6 +1,10 @@
-from flask import render_template
+from flask import render_template, request, redirect
 from flask_restplus import Resource, Namespace
 from . import app, api
+import random, logging
+
+def get_sentiment(word=""):
+    return random.randint(0,100)
 
 ###################################################################################
 # Simple pages
@@ -9,18 +13,21 @@ from . import app, api
 def index_page():
     return render_template('index.html')
 
-
 ###################################################################################
 # API Namespace
 
 ns = Namespace('api', description='API Operations')
 
-@ns.route('/upload_files')
+@ns.route('/sentiment', methods=['POST'])
 class ShowUploadedFiles(Resource):
     def post(self):
+        #logging.warning(request.form["word"])
 
-        # asdf
+        word = request.form["word"]
 
-        return {"universities": "etc"}
+        # Get the sentiment value
+        value = get_sentiment(word)
+
+        return {"sentiment": value}
 
 api.add_namespace(ns)

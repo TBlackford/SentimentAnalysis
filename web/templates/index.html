@@ -40,11 +40,12 @@
             var hsl_value = 100;
 
             var get_hsl = function() {
-                hsl_value = (hsl_value + 2) % 100;
+                // Get word from box
+                var word = $('#text').val();
 
-                console.log(hsl_value);
-
-                $("#score").css("background-color", "hsla(" + hsl_value + ", 100%, 50%, 1)");
+                $.post("/api/sentiment", {"word": word}, function( data ) {
+                    $("#score").css("background-color", "hsla(" + data.sentiment + ", 100%, 50%, 1)");
+                });         
             }
         </script>
 
@@ -58,7 +59,7 @@
                 <div class="sixteen columns" style="margin-top: 25%">
                     <h4>Sentiment Analysis</h4>
 
-                    <textarea class="sixteen column" style="margin-left: 0%"></textarea>
+                    <textarea id="text" class="sixteen column" style="margin-left: 0%"></textarea>
 
                     <div id="four columns offset-by-six">
                         <div class="one-third column">&nbsp;</div>
@@ -77,6 +78,3 @@
       –––––––––––––––––––––––––––––––––––––––––––––––––– -->
     </body>
 </html>
-
-
-
